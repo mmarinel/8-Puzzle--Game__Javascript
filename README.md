@@ -6,9 +6,9 @@ What we learned in this class:
 - HTML5 & CSS 
 - APIs
 - Javascript
-- asynchronous Javascript (AJAX) 
+- asynchronous Javascript (AJAX)
+- Node Js
 - promises
-- node Js
 
 ## Demo
 ![](8PuzzleSample.gif)
