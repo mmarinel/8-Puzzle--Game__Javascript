@@ -1,40 +1,44 @@
 "use strict";
 //        VARIABILI 'GLOBALI'  ///////////////////
 
-// costante che mi tiene il numero di tasselli
-// per il particolare puzzle...9 nel nostro caso
 const TILES = 9;
 
-// costante che mi tiene il numero di celle in una colonna (o riga)
+// same as TILES_IN_A_COLUMN
 const TILES_IN_A_ROW = Math.sqrt(TILES);
 
 // vettore delle posizioni
 let indexes;
 
-// Array contenente oggetti rappresentanti i tasselli del puzzle
-// (preferisco dichiararlo qui per questioni di leggibilità del codice)
 const cells = new Array(TILES);
 
-// Array che mi tiene le immagini 300px X 300px scaricate
 const imgs = [
-  "url('./ocean.jpg')",
-  "url('./Doggie.jpg')",
-  "url('./Solaire_of_Astora.png')",
-  "url('./Sanniti.jpg')",
+  "url('./img/ocean.jpg')",
+  "url('./img/Doggie.jpg')",
+  "url('./img/Solaire_of_Astora.png')",
+  "url('./img/Sanniti.jpg')",
 ];
 
-// Variabile che mi tiene il numero di mosse
-let mosse = 0;
+let moves = 0;
 
 //////////////////////////////// Fine Var. GLOBALI /////////////////////////
 
 ///////////////////////////////// Funzioni di supporto /////////////////////
 
-// funzione che torna un intero casuale nel range [0,upperBound)
+/**
+ * this function returns a number in range [0,upperBound)
+ * @param {*} upperBound
+ * @returns
+ */
 const getRandomInt = function (upperBound) {
   return Math.floor(Math.random() * upperBound);
 };
-// funzione member per array
+
+/**
+ *
+ * @param {*} array
+ * @param {*} el
+ * @returns true iff el is in array
+ */
 const member = function (array = [], el = null) {
   for (const e of array) {
     if (e === el) {
@@ -43,13 +47,16 @@ const member = function (array = [], el = null) {
   }
   return false;
 };
-// funzione che scambia una coppia di indici nel vettore delle posizioni
+
+// swaps indexes in global vector indexes
 const swapIndexes = function (i, j) {
   let temp = indexes[i];
   indexes[i] = indexes[j];
   indexes[j] = temp;
 };
-// vettore che torna la posizione corrente all'interno del puzzle di una casella di id istr (stringa: c1, c3, etc.)
+
+// vettore che torna la posizione corrente (all'interno del puzzle) di una casella
+//di id istr (stringa: c1, c3, etc.)
 const getPosIndexes = function (istr) {
   let i = Number(istr.slice(1));
   for (let j = 0; j < TILES; j++) {
@@ -59,7 +66,9 @@ const getPosIndexes = function (istr) {
   }
   return -1;
 };
-// Funzione per verificare se una casella si trova sul bordo sinistro (prende l'indice della sua posizione corrente)
+
+// verifica se una casella si trova sul bordo sinistro
+// (prende l'indice della sua posizione corrente)
 const notOnLeftEdge = function (ind) {
   let step = TILES_IN_A_ROW;
   for (let i = 0; i < step; i++) {
@@ -69,7 +78,7 @@ const notOnLeftEdge = function (ind) {
   }
   return true;
 };
-// Funzione per verificare se una casella si trova sul bordo destro della scacchiera
+
 const notOnRightEdge = function (ind) {
   let step = TILES_IN_A_ROW;
   for (let i = 1; i <= step; i++) {
@@ -79,7 +88,7 @@ const notOnRightEdge = function (ind) {
   }
   return true;
 };
-// Funzione per verificare se una casella si trova sul bordo superiore della scacchiera
+
 const notOnTop = function (ind) {
   let step = TILES_IN_A_ROW;
   for (let i = 0; i < step; i++) {
@@ -89,7 +98,7 @@ const notOnTop = function (ind) {
   }
   return true;
 };
-// Funzione per verificare se una casella si trova sul bordo inferiore della scacchiera
+
 const notOnBottom = function (ind) {
   let step = TILES_IN_A_ROW;
   // indice da cui inizia l'ultima riga...
@@ -103,7 +112,6 @@ const notOnBottom = function (ind) {
   return true;
 };
 
-// Funzione di supporto per prendere un'immagine a caso
 const pickRandomImage = function () {
   return imgs[Math.floor(Math.random() * imgs.length)];
 };
@@ -168,9 +176,9 @@ const start = function () {
     el.addEventListener("click", move);
   });
 
-  // Resetto il numero di mosse
-  mosse = 0;
-  document.querySelector("#status span").textContent = mosse;
+  // Resetto il numero di moves
+  moves = 0;
+  document.querySelector("#status span").textContent = moves;
   // Rimescolo gli indici
   shuffle();
   // cambio il puzzle
@@ -213,7 +221,7 @@ const move = function () {
   let swapped = false;
   // Trovo la posizione della casella sui cui si è cliccato sopra
   let indx = getPosIndexes(this.id);
-  // Riferimento allo span contenente numero di mosse
+  // Riferimento allo span contenente numero di moves
   let span = document.querySelector("#status span");
 
   // Se c'è una casella vuota adiacente, faccio lo swap
@@ -232,8 +240,8 @@ const move = function () {
   }
   // console.log("Hai cliccato!:" + String(indx));
   if (swapped === true) {
-    mosse++;
-    span.textContent = String(mosse);
+    moves++;
+    span.textContent = String(moves);
     makePositions();
   }
   // console.log("polarity: " + String(polarity()));
