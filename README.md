@@ -6,11 +6,9 @@ You can find the Subject in this repo (Italian).
 
 What we learned in this class:
 - HTML5 & CSS 
-- APIs
 - Javascript
 - asynchronous Javascript (AJAX)
 - Node Js
-- promises
 
 ## Demo
 ![](8PuzzleSample.gif)
